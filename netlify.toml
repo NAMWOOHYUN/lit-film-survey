@@ -1,0 +1,8 @@
+[functions]
+  directory = "netlify/functions"
+
+# 관리자 페이지: 사이트주소/admin.com 으로 접속
+[[redirects]]
+  from = "/admin.com"
+  to = "/index.html"
+  status = 200

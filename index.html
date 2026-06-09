@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>원작과 영상 — 진로탐구 설문</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root{--paper:#F2F0EA;--card:#FBFAF6;--ink:#1B2330;--ink-soft:#5A6472;--line:#DBD6CC;
+    --garnet:#8C2F39;--garnet-tint:#F3E6E6;--slate:#2E4756;--slate-tint:#E6ECEF;
+    --serif:"Noto Serif KR",Georgia,"Nanum Myeongjo",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Malgun Gothic","Segoe UI",Roboto,sans-serif;--r:14px;}
+  *{box-sizing:border-box}html,body{margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .wrap{max-width:620px;margin:0 auto;padding:0 20px calc(64px + env(safe-area-inset-bottom))}
+  .wide{max-width:880px}
+  .reel{position:sticky;top:0;z-index:5;background:var(--paper);padding:14px 0 12px;display:flex;gap:6px}
+  .reel i{flex:1;height:4px;border-radius:2px;background:var(--line);transition:background .35s ease}.reel i.on{background:var(--garnet)}
+  header{padding:8px 0 26px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--garnet);font-weight:700}
+  .frame-mark{display:inline-flex;align-items:center;gap:10px;margin:14px 0 10px;font-family:var(--serif);color:var(--slate);font-size:15px}.frame-mark b{font-weight:700}.frame-mark span{opacity:.5}
+  h1{font-family:var(--serif);font-weight:700;line-height:1.35;font-size:25px;margin:6px 0 0;letter-spacing:-.01em}
+  .lead{color:var(--ink-soft);font-size:14.5px;margin:14px 0 0}
+  .idcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 20px;margin-top:18px}
+  .idgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}.idgrid .full{grid-column:1/-1}
+  .field label{display:block;font-size:13px;color:var(--ink-soft);margin-bottom:7px}.field label em{font-style:normal;color:#A39B8C;font-size:12px}
+  .field input,.field select{width:100%;border:1px solid var(--line);border-radius:11px;padding:12px 13px;font-size:16px;font-family:var(--sans);background:#fff;color:var(--ink)}
+  .field input:focus,.field select:focus{outline:2px solid var(--slate);outline-offset:1px;border-color:var(--slate)}
+  .anon{display:flex;align-items:center;gap:9px;margin-top:14px;font-size:14px;color:var(--ink-soft);cursor:pointer;user-select:none}.anon input{width:18px;height:18px;accent-color:var(--garnet)}
+  .idfields.hide{display:none}
+  .q{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px 20px;margin-top:18px;scroll-margin-top:80px}.q.miss{border-color:var(--garnet);box-shadow:0 0 0 3px var(--garnet-tint)}
+  .qhead{display:flex;gap:12px;align-items:flex-start}.qnum{flex:none;font-family:var(--serif);font-weight:700;font-size:13px;color:var(--slate);border:1.5px solid var(--slate);border-radius:5px;padding:3px 8px;line-height:1;letter-spacing:.04em}
+  .qtext{font-size:16.5px;font-weight:600;line-height:1.5;margin:1px 0 0}.qhint{font-size:12.5px;color:var(--ink-soft);margin:9px 0 0;font-weight:600}
+  .opts{margin-top:14px;display:flex;flex-direction:column;gap:9px}
+  .opt{position:relative;display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:11px;padding:13px 14px;cursor:pointer;background:#fff;transition:border-color .15s,background .15s}.opt:hover{border-color:#C7BFB0}
+  .opt input{position:absolute;opacity:0;width:0;height:0}
+  .dot{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid #C2BAAC;display:grid;place-items:center;transition:border-color .15s}.dot::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--garnet);transform:scale(0);transition:transform .15s}
+  .box{flex:none;width:20px;height:20px;border-radius:6px;border:2px solid #C2BAAC;display:grid;place-items:center;background:#fff;transition:.15s}.box::after{content:"";width:6px;height:11px;border:solid #fff;border-width:0 2.6px 2.6px 0;transform:rotate(45deg) scale(0);transition:transform .15s;margin-top:-2px}
+  .opt .lab{font-size:15px;line-height:1.45}
+  .opt:has(input:checked){border-color:var(--garnet);background:var(--garnet-tint)}.opt:has(input:checked) .dot{border-color:var(--garnet)}.opt:has(input:checked) .dot::after{transform:scale(1)}
+  .opt:has(input:checked) .box{background:var(--garnet);border-color:var(--garnet)}.opt:has(input:checked) .box::after{transform:rotate(45deg) scale(1)}
+  .opt:focus-within{outline:2px solid var(--slate);outline-offset:2px}
+  .etc{margin-top:11px}.etc.hide{display:none}.etc input{width:100%;border:1px solid var(--line);border-radius:11px;padding:12px 13px;font-size:16px;font-family:var(--sans);background:#fff;color:var(--ink)}.etc input:focus{outline:2px solid var(--slate);outline-offset:1px;border-color:var(--slate)}
+  .submit{margin-top:26px}
+  button.primary{width:100%;border:none;border-radius:12px;background:var(--garnet);color:#fff;font-family:var(--sans);font-weight:700;font-size:16px;padding:16px;cursor:pointer;transition:opacity .15s,transform .05s}button.primary:hover{opacity:.93}button.primary:active{transform:translateY(1px)}button.primary:disabled{opacity:.55;cursor:default}
+  .errline{color:var(--garnet);font-size:13.5px;margin-top:12px;display:none;font-weight:600}.errline.show{display:block}
+  .done{text-align:center;padding:74px 14px}.done .glyph{font-family:var(--serif);font-size:46px;color:var(--garnet);line-height:1}.done h2{font-family:var(--serif);font-size:24px;margin:20px 0 14px}.done p{color:var(--ink);font-size:16px;margin:6px 0;line-height:1.6}.done p.sub{color:var(--ink-soft);font-size:14px;margin-top:14px}
+  .lock{max-width:380px;margin:80px auto 0;text-align:center}.lock .eyebrow{display:block;margin-bottom:14px}.lock h2{font-family:var(--serif);font-size:22px;margin:0 0 22px}
+  .lock input{width:100%;text-align:center;letter-spacing:.1em;border:1px solid var(--line);border-radius:11px;padding:13px;font-size:16px;font-family:var(--sans);background:#fff}.lock input:focus{outline:2px solid var(--slate);border-color:var(--slate)}.lock .err{color:var(--garnet);font-size:13px;margin-top:10px;min-height:18px}
+  .dash-top{display:flex;justify-content:space-between;align-items:flex-end;padding:20px 0 16px;gap:16px;flex-wrap:wrap}.dash-top h1{font-size:22px}
+  .src{font-size:12.5px;color:var(--ink-soft);margin-top:4px}
+  .tools{display:flex;gap:8px;flex-wrap:wrap}
+  button.ghost{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:9px;padding:9px 13px;font-size:13.5px;font-family:var(--sans);cursor:pointer;font-weight:600}button.ghost:hover{border-color:var(--slate)}button.ghost.accent{background:var(--garnet);color:#fff;border-color:var(--garnet)}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-top:6px}
+  .tab{border:none;background:none;font-family:var(--sans);font-size:14px;font-weight:600;color:var(--ink-soft);padding:11px 12px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}.tab.on{color:var(--garnet);border-bottom-color:var(--garnet)}
+  .view{display:none;padding-top:8px}.view.on{display:block}#report.printing .view{display:block !important}#report.printing .pagebreak{break-before:page;page-break-before:always}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+  .scard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}.scard .k{font-size:12.5px;color:var(--ink-soft);font-weight:600}.scard .v{font-family:var(--serif);font-size:30px;font-weight:700;margin-top:6px;line-height:1}.scard .v small{font-size:14px;color:var(--ink-soft);font-weight:500;margin-left:3px}
+  .insights{margin-top:20px;background:var(--slate-tint);border:1px solid #CDD8DC;border-radius:12px;padding:18px 20px}.insights h3{font-family:var(--serif);font-size:16px;margin:0 0 12px;color:var(--slate)}.insights ul{margin:0;padding-left:18px}.insights li{font-size:14.5px;margin:8px 0;line-height:1.55}.insights b{color:var(--garnet)}
+  .block{padding:20px 0;border-bottom:1px solid var(--line)}.qt{display:flex;gap:10px;align-items:flex-start;margin-bottom:14px}.qt p{margin:0;font-size:15.5px;font-weight:600}
+  .barrow{margin:11px 0}.topline{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}.blab{font-size:13.5px;color:var(--ink)}.stat{font-size:13px;color:var(--ink-soft);white-space:nowrap}
+  .track{height:24px;background:#EEEAE0;border-radius:6px;overflow:hidden}.fill{height:100%;background:var(--garnet);border-radius:6px;min-width:2px;transition:width .5s ease}
+  .multinote{font-size:12px;color:var(--ink-soft);margin:4px 0 2px}
+  .etclist{margin:10px 0 0;padding:12px 14px;background:#fff;border:1px solid var(--line);border-radius:10px}.etclist b{font-size:12.5px;color:var(--slate)}.etclist ul{margin:6px 0 0;padding-left:18px}.etclist li{font-size:13px;margin:3px 0}
+  .sectit{font-family:var(--serif);font-size:17px;margin:6px 0 4px;color:var(--ink)}.sechint{font-size:13px;color:var(--ink-soft);margin:0 0 14px}
+  table{width:100%;border-collapse:collapse;font-size:13px}.tablewrap{overflow-x:auto;margin-top:8px;-webkit-overflow-scrolling:touch}.tablewrap table{min-width:620px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:12px;letter-spacing:.04em;color:var(--ink-soft);font-weight:700;background:#F7F4ED}td.num,th.num{text-align:center}.who{font-weight:600}
+  .matrix td.hot{background:var(--garnet-tint);font-weight:700;color:var(--garnet)}.empty{padding:60px 0;text-align:center;color:var(--ink-soft)}
+  .setup{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;margin-top:18px}.setup h2{font-family:var(--serif);font-size:19px;margin:0 0 10px}.setup p{font-size:14px;color:var(--ink-soft);margin:8px 0}.setup ol{padding-left:20px;font-size:14px}.setup ol li{margin:7px 0}.setup code{background:#EEEAE0;padding:2px 6px;border-radius:5px;font-size:13px}
+  @media (max-width:480px){.wrap{padding:0 14px calc(56px + env(safe-area-inset-bottom))}h1{font-size:22px}.qtext{font-size:15.5px}.q{padding:18px 15px}.idgrid{grid-template-columns:1fr}.dash-top h1{font-size:20px}.tab{padding:10px 9px;font-size:13.5px}}
+  @media (prefers-reduced-motion: reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+<!-- Netlify가 배포 시 자동 감지하는 정적 폼(숨김). 실제 제출은 JS가 이 폼 이름으로 전송합니다. -->
+<form name="survey" data-netlify="true" hidden>
+  <input name="school"><input name="grade"><input name="name">
+  <input name="q1"><input name="q2"><input name="q2_etc"><input name="q3"><input name="q4">
+</form>
+
+<div class="wrap" id="app"></div>
+
+<script>
+const CONFIG={ADMIN_PASSWORD:"alswldjwls",FORM_NAME:"survey",FUNCTION_URL:"/.netlify/functions/responses"};
+const SURVEY={
+  title:"고전·소설의 영상화 — 원작의 가치와 현대적 연출에 관한 설문",
+  lead:"원작 소설이 영화로 만들어질 때 무엇이 달라지고, 문학적 가치는 어떻게 지켜질 수 있을지 탐구하는 진로탐구 설문입니다. 정답은 없으니 평소 생각을 솔직하게 골라 주세요.",
+  questions:[
+    {id:"q1",type:"single",text:"원작 소설을 영화로 제작할 때, 내용이 일부 바뀌는 것에 대해 어떻게 생각하나요?",options:["매우 긍정적","긍정적","보통","부정적","매우 부정적"]},
+    {id:"q2",type:"single",etc:true,text:"영화의 주제를 이해하는 데 가장 큰 영향을 주는 요소는 무엇이라고 생각하나요?",options:["줄거리","등장인물의 성격 및 변화","배우의 연기력","촬영 기법 및 장면 구성","음악 및 음향 효과","대사","기타"]},
+    {id:"q3",type:"multi",text:"원작 소설을 읽은 뒤 영화를 보거나, 영화를 본 뒤 원작 소설을 읽어 본 경험이 있나요?",options:["있다 (원작 소설 → 영화)","없다 (원작 소설 → 영화)","있다 (영화 → 원작 소설)","없다 (영화 → 원작 소설)"]},
+    {id:"q4",type:"single",text:"소설을 먼저 읽고 영화를 봤을 때, 영화가 원작에서 크게 달라졌다고 느껴지면 만족도는 어떻게 달라지나요?",options:["매우 높아진다","다소 높아진다","변화 없다","다소 낮아진다","매우 낮아진다"]}
+  ]
+};
+const ETC_INDEX=7;
+
+/* ---------- 저장/수집 : Netlify Forms ---------- */
+async function saveResponse(rec){
+  const body=new URLSearchParams();
+  body.append("form-name",CONFIG.FORM_NAME);
+  Object.entries(rec).forEach(([k,v])=>body.append(k,v==null?"":String(v)));
+  const res=await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:body.toString()});
+  if(!res.ok) throw new Error("제출 실패 ("+res.status+")");
+}
+async function loadResponses(){
+  const res=await fetch(CONFIG.FUNCTION_URL,{cache:"no-store"});
+  const data=await res.json().catch(()=>({error:"BAD_JSON"}));
+  if(data && Array.isArray(data.rows)) return {rows:data.rows.map(norm)};
+  return {error:(data&&data.error)||"UNKNOWN"};
+}
+function norm(r){r=r||{};return {created_at:r.created_at||r.created||null,school:r.school||null,grade:r.grade||null,name:r.name||null,
+  q1:r.q1?Number(r.q1):null,q2:r.q2?Number(r.q2):null,q2_etc:r.q2_etc||null,q3:(r.q3!=null?String(r.q3):""),q4:r.q4?Number(r.q4):null};}
+function parseQ3(r){if(!r.q3&&r.q3!==0)return [];return String(r.q3).split(",").filter(s=>s!=="").map(Number);}
+
+/* ---------- 라우팅 ---------- */
+const isAdmin=(location.pathname+location.search+location.hash).toLowerCase().includes("admin.com");
+const app=document.getElementById("app");
+if(isAdmin) renderAdminGate(); else renderSurvey();
+
+/* ===================== 설문 화면 ===================== */
+function renderSurvey(){
+  const qHtml=SURVEY.questions.map((q,i)=>{
+    const multi=q.type==="multi";
+    const opts=q.options.map((o,idx)=>`<label class="opt"><input type="${multi?'checkbox':'radio'}" name="${q.id}" value="${idx+1}">${multi?'<span class="box"></span>':'<span class="dot"></span>'}<span class="lab">${o}</span></label>`).join("");
+    const hint=multi?'<p class="qhint">해당하는 항목을 모두 선택하세요 (복수 선택 가능)</p>':"";
+    const etc=q.etc?`<div class="etc hide" id="q2etcwrap"><input id="q2etc" maxlength="60" placeholder="기타 — 직접 입력해 주세요" autocomplete="off"></div>`:"";
+    return `<section class="q" id="card-${q.id}"><div class="qhead"><span class="qnum">Q${i+1}</span><p class="qtext">${q.text}</p></div>${hint}<div class="opts">${opts}</div>${etc}</section>`;
+  }).join("");
+  app.innerHTML=`
+    <div class="reel">${SURVEY.questions.map(()=>'<i></i>').join("")}</div>
+    <header><span class="eyebrow">진로탐구 · 원작과 영상</span>
+      <div class="frame-mark"><b>原作</b><span>→</span><b>映像</b></div>
+      <h1>${SURVEY.title}</h1><p class="lead">${SURVEY.lead}</p></header>
+    <div class="idcard"><label class="anon"><input type="checkbox" id="anon"> 이름을 밝히지 않고 익명으로 제출할게요</label>
+      <div class="idfields" id="idfields"><div class="idgrid">
+        <div class="field full"><label>학교 <em>(선택)</em></label><input id="school" maxlength="40" placeholder="예: ○○고등학교" autocomplete="off"></div>
+        <div class="field"><label>학년 <em>(선택)</em></label><select id="grade"><option value="">선택 안 함</option><option>고1</option><option>고2</option><option>고3</option><option>그 외</option></select></div>
+        <div class="field"><label>이름 <em>(선택)</em></label><input id="name" maxlength="30" placeholder="예: 홍길동" autocomplete="off"></div>
+      </div></div></div>
+    ${qHtml}
+    <div class="submit"><button class="primary" id="submitBtn">응답 제출하기</button><p class="errline" id="err"></p></div>`;
+  const reel=[...app.querySelectorAll('.reel i')];
+  const updateReel=()=>SURVEY.questions.forEach((q,i)=>reel[i].classList.toggle('on',!!app.querySelector(`input[name="${q.id}"]:checked`)));
+  app.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(inp=>{if(inp.id==='anon')return;inp.addEventListener('change',()=>{updateReel();const c=inp.closest('.q');if(c)c.classList.remove('miss');});});
+  app.querySelectorAll('input[name="q2"]').forEach(inp=>inp.addEventListener('change',()=>{const w=app.querySelector('#q2etcwrap');const s=inp.checked&&Number(inp.value)===ETC_INDEX;w.classList.toggle('hide',!s);if(s)app.querySelector('#q2etc').focus();else app.querySelector('#q2etc').value="";}));
+  app.querySelector('#anon').addEventListener('change',e=>{app.querySelector('#idfields').classList.toggle('hide',e.target.checked);if(e.target.checked){app.querySelector('#school').value="";app.querySelector('#grade').value="";app.querySelector('#name').value="";}});
+  app.querySelector('#submitBtn').addEventListener('click',onSubmit);
+}
+async function onSubmit(){
+  const btn=app.querySelector('#submitBtn'),err=app.querySelector('#err');
+  SURVEY.questions.forEach(q=>app.querySelector(`#card-${q.id}`).classList.remove('miss'));
+  let firstMiss=null,msg="아직 선택하지 않은 문항이 있어요. 표시된 문항을 확인해 주세요.";
+  const mark=id=>{const c=app.querySelector(`#card-${id}`);c.classList.add('miss');if(!firstMiss)firstMiss=c;};
+  if(!app.querySelector('input[name="q1"]:checked'))mark('q1');
+  const q2sel=app.querySelector('input[name="q2"]:checked');
+  if(!q2sel)mark('q2');else if(Number(q2sel.value)===ETC_INDEX&&!app.querySelector('#q2etc').value.trim()){mark('q2');msg="‘기타’를 선택하셨다면 내용을 직접 입력해 주세요.";}
+  if(!app.querySelector('input[name="q3"]:checked'))mark('q3');
+  if(!app.querySelector('input[name="q4"]:checked'))mark('q4');
+  if(firstMiss){err.textContent=msg;err.classList.add('show');firstMiss.scrollIntoView({behavior:'smooth',block:'center'});return;}
+  err.classList.remove('show');
+  const anon=app.querySelector('#anon').checked,q2num=Number(q2sel.value);
+  const q3sel=[...app.querySelectorAll('input[name="q3"]:checked')].map(i=>Number(i.value)).sort((a,b)=>a-b);
+  const rec={school:anon?null:(app.querySelector('#school').value.trim()||null),grade:anon?null:(app.querySelector('#grade').value||null),name:anon?null:(app.querySelector('#name').value.trim()||null),
+    q1:Number(app.querySelector('input[name="q1"]:checked').value),q2:q2num,q2_etc:q2num===ETC_INDEX?app.querySelector('#q2etc').value.trim():null,q3:q3sel.join(","),q4:Number(app.querySelector('input[name="q4"]:checked').value)};
+  btn.disabled=true;btn.textContent="제출 중…";
+  try{await saveResponse(rec);renderDone();}
+  catch(e){btn.disabled=false;btn.textContent="응답 제출하기";err.textContent="제출 중 문제가 발생했어요: "+e.message+" 잠시 후 다시 시도해 주세요.";err.classList.add('show');}
+}
+function renderDone(){
+  app.innerHTML=`<div class="done"><div class="glyph">＂＂</div><h2>응답이 제출되었습니다</h2>
+    <p>진로 탐구에 있어서 큰 도움이 되었습니다.</p><p>시간 내주셔서 감사합니다.</p>
+    <p class="sub">제출한 답변은 진로탐구 자료로만 사용됩니다.</p></div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ===================== 관리자 ===================== */
+function renderAdminGate(){
+  app.innerHTML=`<div class="lock"><span class="eyebrow">관리자 · 응답 확인</span><h2>비밀번호를 입력하세요</h2>
+    <input id="pw" type="password" placeholder="비밀번호" autocomplete="off">
+    <div class="submit"><button class="primary" id="enter">확인</button></div><div class="err" id="pwerr"></div></div>`;
+  const pw=app.querySelector('#pw');
+  const go=()=>{if(pw.value===CONFIG.ADMIN_PASSWORD)renderDashboard();else app.querySelector('#pwerr').textContent="비밀번호가 올바르지 않습니다.";};
+  app.querySelector('#enter').addEventListener('click',go);pw.addEventListener('keydown',e=>{if(e.key==='Enter')go();});pw.focus();
+}
+
+const pct=(c,t)=>t?Math.round(c/t*100):0;
+const q1grp=v=>v<=2?'긍정':(v===3?'보통':'부정');
+const q4grp=v=>v<=2?'상승':(v===3?'유지':'하락');
+function distBlock(q,i,rows){
+  if(q.type==="multi"){const resp=rows.filter(r=>parseQ3(r).length>0).length;
+    const bars=q.options.map((o,idx)=>{const c=rows.filter(r=>parseQ3(r).includes(idx+1)).length,p=pct(c,resp);return `<div class="barrow"><div class="topline"><span class="blab">${o}</span><span class="stat">${c}명 · ${p}%</span></div><div class="track"><div class="fill" style="width:${p}%"></div></div></div>`;}).join("");
+    return `<div class="block"><div class="qt"><span class="qnum">Q${i+1}</span><p>${q.text}</p></div><p class="multinote">복수 응답 문항 — 비율 합계가 100%를 넘을 수 있습니다 (분모: 응답자 ${resp}명).</p>${bars}</div>`;}
+  const tot=rows.filter(r=>r[q.id]!=null).length;
+  const bars=q.options.map((o,idx)=>{const c=rows.filter(r=>Number(r[q.id])===idx+1).length,p=pct(c,tot);return `<div class="barrow"><div class="topline"><span class="blab">${o}</span><span class="stat">${c}명 · ${p}%</span></div><div class="track"><div class="fill" style="width:${p}%"></div></div></div>`;}).join("");
+  let etc="";if(q.etc){const list=rows.filter(r=>Number(r.q2)===ETC_INDEX&&r.q2_etc).map(r=>r.q2_etc);if(list.length)etc=`<div class="etclist"><b>‘기타’ 자유응답 (${list.length}건)</b><ul>${list.map(t=>`<li>${escapeHtml(t)}</li>`).join("")}</ul></div>`;}
+  return `<div class="block"><div class="qt"><span class="qnum">Q${i+1}</span><p>${q.text}</p></div>${bars}${etc}</div>`;
+}
+
+async function renderDashboard(){
+  app.classList.add('wide');app.innerHTML=`<div class="empty">응답을 불러오는 중…</div>`;
+  const out=await loadResponses().catch(()=>({error:"FETCH_FAILED"}));
+  if(out.error){renderSetup(out.error);return;}
+  renderDashboardWith(out.rows,"auto");
+}
+function renderSetup(code){
+  app.innerHTML=`
+    <div class="dash-top"><div><span class="eyebrow">관리자</span><h1>응답을 자동으로 불러오지 못했습니다</h1>
+      <p class="src">원인 코드: ${escapeHtml(code)}</p></div>
+      <div class="tools"><button class="ghost" id="retry">다시 시도</button><button class="ghost accent" id="imp">CSV 불러오기</button></div></div>
+    <div class="setup"><h2>응답은 이미 안전하게 수집되고 있습니다</h2>
+      <p>학생들이 제출한 응답은 Netlify의 <b>Forms</b>에 자동 저장됩니다(유실 위험 없음). 이 관리자 화면에서 <b>자동으로</b> 분석을 보려면 아래 한 가지만 설정하면 됩니다.</p>
+      <ol>
+        <li>Netlify 우측 상단 프로필 → <code>User settings</code> → <code>Applications</code> → <code>Personal access tokens</code>에서 토큰 발급</li>
+        <li>해당 사이트 → <code>Site configuration</code> → <code>Environment variables</code>에 추가: 이름 <code>NETLIFY_API_TOKEN</code>, 값 = 발급한 토큰</li>
+        <li>재배포(또는 잠시 후) 뒤 이 페이지에서 <b>다시 시도</b></li>
+      </ol>
+      <p>설정 전이라도 Netlify 대시보드의 <b>Forms → survey</b>에서 모든 응답을 표로 보거나 CSV로 내려받을 수 있고, 그 CSV를 위의 <b>CSV 불러오기</b>로 올리면 여기서 바로 분석됩니다.</p>
+    </div>
+    <input type="file" id="csvfile" accept=".csv" hidden>`;
+  app.querySelector('#retry').addEventListener('click',renderDashboard);
+  const fi=app.querySelector('#csvfile');
+  app.querySelector('#imp').addEventListener('click',()=>fi.click());
+  fi.addEventListener('change',e=>handleCSVFile(e.target.files[0]));
+}
+function handleCSVFile(file){
+  if(!file)return;const fr=new FileReader();
+  fr.onload=()=>{try{const rows=csvToRows(fr.result).map(norm);renderDashboardWith(rows,"csv");}catch(err){alert("CSV를 읽지 못했습니다: "+err.message);}};
+  fr.readAsText(file);
+}
+function csvToRows(text){
+  const grid=parseCSV(text);if(!grid.length)return [];
+  const head=grid[0].map(h=>h.trim().toLowerCase());
+  const idx=name=>head.indexOf(name);
+  const dateCol=head.findIndex(h=>h.includes("created")||h.includes("date")||h==="날짜"||h==="제출시각");
+  return grid.slice(1).filter(r=>r.length>1).map(r=>{
+    const g=k=>{const i=idx(k);return i>=0?r[i]:"";};
+    return {created_at:dateCol>=0?r[dateCol]:null,school:g("school"),grade:g("grade"),name:g("name"),q1:g("q1"),q2:g("q2"),q2_etc:g("q2_etc"),q3:g("q3"),q4:g("q4")};
+  });
+}
+function parseCSV(text){
+  text=text.replace(/\r\n/g,"\n").replace(/\r/g,"\n");const rows=[];let row=[],field="",inq=false,i=0;
+  while(i<text.length){const c=text[i];
+    if(inq){if(c==='"'){if(text[i+1]==='"'){field+='"';i+=2;continue;}inq=false;i++;continue;}field+=c;i++;continue;}
+    if(c==='"'){inq=true;i++;continue;}
+    if(c===','){row.push(field);field="";i++;continue;}
+    if(c==='\n'){row.push(field);rows.push(row);row=[];field="";i++;continue;}
+    field+=c;i++;}
+  if(field.length||row.length){row.push(field);rows.push(row);}
+  return rows;
+}
+
+function renderDashboardWith(rows,source){
+  const n=rows.length;
+  const named=rows.filter(r=>r.name).length,anon=n-named,schools=new Set(rows.filter(r=>r.school).map(r=>r.school)).size;
+  const q1tot=rows.filter(r=>r.q1!=null).length,posP=pct(rows.filter(r=>r.q1<=2).length,q1tot);
+  const q4tot=rows.filter(r=>r.q4!=null).length,dropP=pct(rows.filter(r=>r.q4>=4).length,q4tot);
+  let q2mode="—";if(n){const c=SURVEY.questions[1].options.map((o,idx)=>({o,c:rows.filter(r=>Number(r.q2)===idx+1).length}));c.sort((a,b)=>b.c-a.c);if(c[0].c>0)q2mode=c[0].o;}
+  const srcLabel=source==="csv"?"CSV 파일에서 불러옴":"Netlify Forms에서 자동 수집";
+  const cards=`<div class="cards">
+    <div class="scard"><div class="k">수집된 응답</div><div class="v">${n}<small>건</small></div></div>
+    <div class="scard"><div class="k">실명 / 익명</div><div class="v">${named}<small> / ${anon}</small></div></div>
+    <div class="scard"><div class="k">응답 학교 수</div><div class="v">${schools}<small>곳</small></div></div>
+    <div class="scard"><div class="k">변경에 긍정적</div><div class="v">${posP}<small>%</small></div></div>
+    <div class="scard"><div class="k">크게 달라지면 만족도 하락</div><div class="v">${dropP}<small>%</small></div></div></div>`;
+  const insights=`<div class="insights"><h3>핵심 관찰</h3><ul>
+    <li>원작 내용 변경에 대해 <b>긍정 ${posP}%</b> · 보통 ${pct(rows.filter(r=>r.q1===3).length,q1tot)}% · 부정 ${pct(rows.filter(r=>r.q1>=4).length,q1tot)}%로 나타났습니다.</li>
+    <li>원작을 먼저 읽은 뒤 영화가 크게 달라졌을 때 <b>만족도가 낮아진다</b>는 응답이 <b>${dropP}%</b> — 원작 가치 훼손을 직접 체감하는 비율입니다.</li>
+    <li>주제 이해에 가장 큰 영향을 준다고 꼽힌 요소는 <b>${q2mode}</b>입니다.</li></ul></div>`;
+  const g1=['긍정','보통','부정'],g4=['상승','유지','하락'];
+  const mtx=g1.map(a=>g4.map(b=>rows.filter(r=>r.q1!=null&&r.q4!=null&&q1grp(r.q1)===a&&q4grp(r.q4)===b).length));
+  const crossRows=g1.map((a,ai)=>{const rt=mtx[ai].reduce((x,y)=>x+y,0);return `<tr><th>${a}</th>${mtx[ai].map((c,bi)=>{const hot=bi===2&&c>0&&c===Math.max(...mtx[ai]);return `<td class="num ${hot?'hot':''}">${c}<br><span class="stat">${pct(c,rt)}%</span></td>`;}).join("")}<td class="num">${rt}</td></tr>`;}).join("");
+  const cross=`<p class="sectit">원작 변경 태도(Q1) × 만족도 변화(Q4)</p><p class="sechint">변경에 긍정적인 응답자도 실제로 크게 달라지면 만족도가 떨어지는지를 교차로 봅니다. 강조 칸은 각 행에서 ‘하락’ 비중이 가장 큰 경우입니다.</p><div class="tablewrap"><table class="matrix"><thead><tr><th>Q1＼Q4</th><th class="num">만족도 상승</th><th class="num">유지</th><th class="num">하락</th><th class="num">계</th></tr></thead><tbody>${crossRows}</tbody></table></div>`;
+  const grades=[...new Set(rows.filter(r=>r.grade).map(r=>r.grade))];
+  const groupTbl=grades.length?`<div class="tablewrap"><table><thead><tr><th>학년</th><th class="num">응답</th><th class="num">변경 긍정%</th><th class="num">만족도 하락%</th></tr></thead><tbody>${grades.map(g=>{const s=rows.filter(r=>r.grade===g);return `<tr><th>${g}</th><td class="num">${s.length}</td><td class="num">${pct(s.filter(r=>r.q1<=2).length,s.filter(r=>r.q1!=null).length)}%</td><td class="num">${pct(s.filter(r=>r.q4>=4).length,s.filter(r=>r.q4!=null).length)}%</td></tr>`;}).join("")}</tbody></table></div>`:`<p class="sechint">학년 정보가 입력된 응답이 아직 없습니다.</p>`;
+  const tableRows=rows.map(r=>{const t=r.created_at?new Date(r.created_at).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):"—";
+    const single=qid=>{const v=Number(r[qid]),q=SURVEY.questions.find(x=>x.id===qid);return v?`${v}. ${q.options[v-1]}`:"—";};
+    const q2cell=()=>{const v=Number(r.q2);if(!v)return "—";let s=`${v}. ${SURVEY.questions[1].options[v-1]}`;if(v===ETC_INDEX&&r.q2_etc)s+=` — ${escapeHtml(r.q2_etc)}`;return s;};
+    const q3cell=()=>{const a=parseQ3(r);return a.length?a.map(x=>SURVEY.questions[2].options[x-1]).join(" / "):"—";};
+    return `<tr><td>${t}</td><td>${escapeHtml(r.school)||"—"}</td><td>${escapeHtml(r.grade)||"—"}</td><td class="who">${escapeHtml(r.name)||"<span style='color:#A39B8C'>익명</span>"}</td><td>${single('q1')}</td><td>${q2cell()}</td><td>${q3cell()}</td><td>${single('q4')}</td></tr>`;}).join("");
+
+  app.innerHTML=`
+    <div class="dash-top"><div><span class="eyebrow">관리자 · 응답 현황</span><h1>설문 응답 분석</h1><p class="src">${srcLabel} · ${n}건</p></div>
+      <div class="tools"><button class="ghost" id="refresh">새로고침</button><button class="ghost" id="imp">CSV 불러오기</button><button class="ghost" id="csv">CSV 내보내기</button><button class="ghost accent" id="pdf">PDF 내려받기</button></div></div>
+    ${n===0?`<div class="empty">아직 수집된 응답이 없습니다. 학생들이 제출하면 여기에 모입니다.</div>`:`
+      <div class="tabs"><button class="tab on" data-v="sum">요약</button><button class="tab" data-v="dist">문항별 분포</button><button class="tab" data-v="cross">교차 분석</button><button class="tab" data-v="group">학년·학교별</button><button class="tab" data-v="raw">원자료</button></div>
+      <div id="report">
+        <div class="view on" data-v="sum"><h2 class="sectit" style="margin-top:14px">전체 요약</h2>${cards}${insights}</div>
+        <div class="view pagebreak" data-v="dist">${SURVEY.questions.map((q,i)=>distBlock(q,i,rows)).join("")}</div>
+        <div class="view pagebreak" data-v="cross">${cross}</div>
+        <div class="view pagebreak" data-v="group"><p class="sectit">학년별 비교</p><p class="sechint">학년에 따라 원작 변경 태도와 만족도 민감도가 다른지 봅니다.</p>${groupTbl}</div>
+        <div class="view pagebreak" data-v="raw"><p class="sectit">응답 원자료 (${n}건)</p><div class="tablewrap"><table><thead><tr><th>제출시각</th><th>학교</th><th>학년</th><th>응답자</th><th>Q1</th><th>Q2</th><th>Q3 (복수)</th><th>Q4</th></tr></thead><tbody>${tableRows}</tbody></table></div></div>
+      </div>`}
+    <input type="file" id="csvfile" accept=".csv" hidden>`;
+  app.querySelector('#refresh').addEventListener('click',renderDashboard);
+  const fi=app.querySelector('#csvfile');
+  app.querySelector('#imp').addEventListener('click',()=>fi.click());
+  fi.addEventListener('change',e=>handleCSVFile(e.target.files[0]));
+  if(n>0){
+    app.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{app.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));t.classList.add('on');app.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.dataset.v===t.dataset.v));}));
+    app.querySelector('#csv').addEventListener('click',()=>downloadCSV(rows));
+    app.querySelector('#pdf').addEventListener('click',downloadPDF);
+  }
+}
+function downloadCSV(rows){
+  const head=["제출시각","학교","학년","응답자","Q1","Q2","기타응답","Q3(복수)","Q4"],lines=[head];
+  rows.forEach(r=>{const t=r.created_at?new Date(r.created_at).toLocaleString('ko-KR'):"";
+    const sv=qid=>{const v=Number(r[qid]),q=SURVEY.questions.find(x=>x.id===qid);return v?q.options[v-1]:"";};
+    const q3=parseQ3(r).map(x=>SURVEY.questions[2].options[x-1]).join(" / ");
+    lines.push([t,r.school||"",r.grade||"",r.name||"익명",sv('q1'),sv('q2'),r.q2_etc||"",q3,sv('q4')]);});
+  const csv="\uFEFF"+lines.map(row=>row.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\r\n");
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download="설문응답_"+new Date().toISOString().slice(0,10)+".csv";a.click();URL.revokeObjectURL(a.href);
+}
+function downloadPDF(){const rep=document.getElementById('report');if(!rep)return;const fname="설문분석_"+new Date().toISOString().slice(0,10)+".pdf";if(typeof html2pdf==='undefined'){window.print();return;}rep.classList.add('printing');html2pdf().set({margin:[10,10,12,10],filename:fname,image:{type:'jpeg',quality:0.96},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy']}}).from(rep).save().then(()=>rep.classList.remove('printing')).catch(()=>rep.classList.remove('printing'));}
+function escapeHtml(s){return (s||"").replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+</script>
+</body>
+</html>
